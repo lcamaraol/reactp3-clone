@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Image } from 'react-native';
+import { View, Text, TextInput, Image, TouchableOpacity, Alert } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { styles } from './LoginStyles';
 
 const sampleImages = [
@@ -15,6 +16,17 @@ interface Login {}
 const Login: React.FC<Login> = () => {
   const [email, setEmail] = useState('');
   const [isFocused, setIsFocused] = useState(false);
+  const navigation = useNavigation<any>();
+
+  const handleLogin = () => {
+    if (email === 'admin@gmail.com') {
+      navigation.navigate('Home');
+    } else if (!email.includes('@gmail.com')) {
+      Alert.alert("Erro", "Email inválido.");
+    } else {
+      Alert.alert("Erro", "Apenas o admin@gmail.com pode acessar.");
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -50,9 +62,9 @@ const Login: React.FC<Login> = () => {
         autoCapitalize="none"
       />
 
-      <View style={styles.buttonRed}>
+      <TouchableOpacity style={styles.buttonRed} onPress={handleLogin}>
         <Text style={styles.buttonRedText}>Continuar</Text>
-      </View>
+      </TouchableOpacity>
 
       <View style={styles.buttonBlack}>
         <Image
